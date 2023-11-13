@@ -1,43 +1,45 @@
 <script>
-    import { onMount } from 'svelte';
+  import { onMount } from "svelte";
 
-    let input;
+  let input;
+  let name;
 
-    export let type;
-    export let value;
-    export let options = {};
-    export let excludeFieldName = false;
-    export let listItemIndex;
+  export let type;
+  export let value;
+  export let options = {};
+  export let excludeFieldName = false;
+  export let listItemIndex;
 
-    onMount(() => {
-        input.type = type;
-    
-        for (const [key, value] of Object.entries(options)) {
-            if (key === 'placeholder' && listItemIndex) {
-                input.setAttribute(key, value + ' ' + listItemIndex.toString());
-            } else {
-                input.setAttribute(key, value);
-            } 
-        }
-    });
+  onMount(() => {
+    input.type = type;
+    name = listItemIndex ? value + listItemIndex.toString() : value;
+
+    for (const [key, value] of Object.entries(options)) {
+      if (key === "placeholder" && listItemIndex) {
+        input.setAttribute(key, value + " " + listItemIndex.toString());
+      } else {
+        input.setAttribute(key, value);
+      }
+    }
+  });
 </script>
 
 <div class="field">
-    {#if !excludeFieldName}
-        <p>
-            {value}: 
-        </p>
-    {/if}
-    <input bind:this={input} id={listItemIndex ? value + listItemIndex.toString() : value}/>
+  {#if !excludeFieldName}
+    <label for={name}>
+      {value}:
+    </label>
+  {/if}
+  <input bind:this={input} {name} id={name} />
 </div>
 
 <style>
-.field {
+  .field {
     display: flex;
     align-items: center; /* Vertically align the elements */
   }
 
-  .field > p {
+  .field > label {
     margin-right: 10px; /* Adjust the spacing between input and paragraph */
     min-width: 100px; /* Set a fixed width for the paragraph element */
     white-space: nowrap; /* Prevent text from wrapping */

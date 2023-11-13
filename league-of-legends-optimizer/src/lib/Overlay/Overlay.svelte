@@ -10,6 +10,8 @@
         // Prevent the default form submission
         event.preventDefault();
 
+        console.log(event.target);
+
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
 
