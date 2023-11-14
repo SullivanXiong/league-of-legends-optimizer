@@ -1,9 +1,28 @@
 <script>
-  import { getContext, onMount } from "svelte";
+  import { getContext, onDestroy, onMount, createEventDispatcher } from "svelte";
   import { Field, FieldList } from "../Overlay/Field";
   import { parseTeam } from "./util";
 
   const { updateFields, updateOnSubmit, toggleOverlay } = getContext("overlay-controls");
+  const dispatch = createEventDispatcher();
+
+  let teams = [];
+
+  function refreshTeams() {
+    let storageItem = localStorage.getItem("teams");
+    if (!storageItem) return;
+    const _teams = JSON.parse(storageItem);
+
+    let __teams = [];
+
+    for (let _team of _teams) {
+      _team.collapsed = true;
+      __teams.push(_team);
+    }
+
+    teams = __teams;
+  }
+
   function addTeam() {
     toggleOverlay();
     const fields = [
@@ -13,42 +32,27 @@
     updateFields(fields);
 
     function teamAdd(data) {
-      let teams = JSON.parse(localStorage.getItem("teams"));
-      teams = teams instanceof Array ? teams : [];
+      let storageItem = localStorage.getItem("teams");
+      let teams = storageItem ? JSON.parse(storageItem) : [];
       teams = [...teams, parseTeam(data)];
       localStorage.setItem("teams", JSON.stringify(teams));
+      refreshTeams();
+      toggleOverlay();
     }
     updateOnSubmit(teamAdd);
   }
 
-  let teams = [];
+  function selectTeam(team) {
+    dispatch("showTeam", team);
+  }
 
-  const testTeams = [
-    {
-      name: "T1",
-      players: ["T1 Zeus", "T1 Oner", "T1 Faker", "T1 Gumayushi", "T1 Keria"],
-    },
-    {
-      name: "JDG",
-      players: ["JDG 369", "JDG Kanavi", "JDG Knight", "JDG Ruler", "JDG MISSING"],
-    },
-  ];
-
-  function getPlayerInfo() {
-    return;
+  function selectPlayer(player) {
+    dispatch("showPlayer", player);
   }
 
   onMount(() => {
-    const _teams = JSON.parse(localStorage.getItem("teams"));
-
-    for (let _team of _teams) {
-      _team.collapsed = true;
-      teams = [...teams, _team];
-    }
+    refreshTeams();
   });
-
-  $: {
-  }
 </script>
 
 <div class="lol-catalog-main">
@@ -57,16 +61,17 @@
       <p
         on:click={() => {
           team.collapsed = !team.collapsed;
+          selectTeam(team);
         }}
       >
         {team.name}
       </p>
       {#if !team.collapsed}
         {#each team.players as player}
-          <div class="lol-catalog-team-item" on:click={() => getPlayerInfo()}>
+          <div class="lol-catalog-team-item" on:click={() => selectPlayer(player)}>
             <span>
               <p>|</p>
-              <p>{player}</p>
+              <p>{player.name}</p>
             </span>
           </div>
         {/each}
