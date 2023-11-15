@@ -1,17 +1,17 @@
 .lol-main {
-    background: blue;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: row;
+  background: #142424;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
 }
 
 .lol-left {
-    width: 25%;
-    border: solid white 1px;
+  width: 25%;
+  border: solid white 1px;
 }
 
 .lol-right {
-    width: 75%;
-    border: solid lightblue 1px;
+  width: 75%;
+  border: solid lightblue 1px;
 }
