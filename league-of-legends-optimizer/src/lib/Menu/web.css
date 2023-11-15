@@ -1,0 +1,49 @@
+.menu-container {
+  position: fixed; /* Fixed position */
+  top: 0; /* Positioned at the top */
+  left: 0; /* Positioned at the left */
+  width: 200px; /* Adjust the width as needed */
+  background-color: #f0f0f0; /* Background color for the menu */
+  padding: 10px; /* Optional padding for menu content */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional shadow for menu */
+  z-index: 100; /* Ensure the menu is on top of other elements */
+  display: none;
+}
+
+.menu-container.open {
+  display: block;
+}
+
+/* Optional styles for the menu content */
+button {
+  margin-bottom: 10px;
+}
+
+.close-button {
+  /* Style for the close button */
+  background-color: #ff0000; /* Example background color */
+  color: #fff; /* Text color */
+  padding: 5px 10px; /* Adjust padding as needed */
+  border: none;
+  cursor: pointer;
+}
+
+.top-right {
+  /* Position the button at the top-right corner */
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.lol-logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.lol-logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.lol-logo.svelte:hover {
+  filter: drop-shadow(0 0 2em #ff3e00aa);
+}
