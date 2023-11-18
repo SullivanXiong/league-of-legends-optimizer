@@ -8,10 +8,10 @@ app.use(express.json()); // for parsing application/json
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  user: "your_username",
+  user: "lolo_api",
   host: "localhost",
-  database: "your_database",
-  password: "your_password",
+  database: "league_of_legends_optimizer",
+  password: "lolo_api",
   port: 5432,
 });
 

@@ -1,5 +1,4 @@
 <script>
-  import Catalog from "./lib/Catalog/Catalog.svelte";
   import Overlay from "./lib/Overlay/Overlay.svelte";
   import Player from "./lib/Player/Player.svelte";
   import Menu from "./lib/Menu/Menu.svelte";
@@ -45,14 +44,8 @@
 <main>
   <Overlay {active} {fields} {onSubmit} />
   <div class="lol-main">
-    <div class="lol-left">
-      {#if isMenuOpen}
-        <Catalog
-          on:showTeam={(event) => setContent("team", event.detail)}
-          on:showPlayer={(event) => setContent("player", event.detail)}
-        />
-      {/if}
-      <Menu bind:isOpen={isMenuOpen} />
+    <div class={`lol-left${isMenuOpen ? " open" : ""}`}>
+      <Menu {setContent} bind:isOpen={isMenuOpen} />
     </div>
     <div class="lol-right">
       {#if contentType === "team"}

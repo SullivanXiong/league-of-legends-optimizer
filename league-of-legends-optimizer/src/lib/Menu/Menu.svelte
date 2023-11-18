@@ -1,7 +1,8 @@
 <script>
-  import viteLogo from "/vite.svg";
-  let hamburgerStack =
-    "https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg";
+  import Catalog from "../Catalog/Catalog.svelte";
+  import stellarNexusLogo from "/stellarNexusLogo.png";
+  let hamburgerStack = "https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg";
+  export let setContent;
   export let isOpen;
 
   function toggleMenu() {
@@ -9,14 +10,20 @@
   }
 </script>
 
-<div class="menu-container" class:open={isOpen}>
-  <img src={hamburgerStack} alt="hamburger stack" />
-  <button on:click={toggleMenu}>Toggle Menu</button>
+<div class={`menu-container${isOpen ? " open" : ""}`} class:open={isOpen}>
+  <div class="menu-button">
+    <img on:click={toggleMenu} class="menu-img" src={hamburgerStack} alt="hamburger stack" />
+    {#if isOpen}
+      <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
+        <img src={stellarNexusLogo} class="menu-logo" alt="Vite Logo" />
+      </a>
+    {/if}
+  </div>
   {#if isOpen}
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="lol-logo" alt="Vite Logo" />
-    </a>
-    <button class="close-button top-right" on:click={toggleMenu}>Close</button>
+    <Catalog
+      on:showTeam={(event) => setContent("team", event.detail)}
+      on:showPlayer={(event) => setContent("player", event.detail)}
+    />
   {/if}
 </div>
 
