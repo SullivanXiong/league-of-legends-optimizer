@@ -16,60 +16,17 @@ const pool = new Pool({
   port: 5432,
 });
 
-async function getSummonerId(inGameName, tagId) {
-  options = {
-    method: "GET",
-    headers: {
-      "X-Riot-Token": process.env.RIOT_API_KEY,
-    },
-  };
-
-  return await fetch(
-    `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${inGameName}/${tagId}`,
-    options
-  )
-    .then((res) => res.json())
-    .then((data) => data);
-}
-
-async function getSummonerData(puuid) {
-  options = {
-    method: "GET",
-    headers: {
-      "X-Riot-Token": process.env.RIOT_API_KEY,
-    },
-  };
-
-  return await fetch(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}`, options)
-    .then((res) => res.json())
-    .then((data) => data);
-}
-
-async function getActiveInGameInfo(summonerId) {
-  options = {
-    method: "GET",
-    headers: {
-      "X-Riot-Token": process.env.RIOT_API_KEY,
-    },
-  };
-
-  return await fetch(`https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${summonerId}`, options)
-    .then((res) => res.json())
-    .then((data) => data);
-}
-
-async function getMatchData(matchId) {
-  options = {
-    method: "GET",
-    headers: {
-      "X-Riot-Token": process.env.RIOT_API_KEY,
-    },
-  };
-
-  return await fetch(`https://americas.api.riotgames.com/lol/match/v5/matches/NA1_${matchId}`, options)
-    .then((res) => res.json())
-    .then((data) => data);
-}
+const {
+  getSummonerId,
+  getSummonerData,
+  getActiveInGameInfo,
+  getPlayerMatches,
+  getMatchData,
+  createTournamentProvider,
+  createTournament,
+  createTournamentCode,
+  getTournamentData,
+} = require("./riotApi");
 
 app.get("/matchData", async (req, res) => {
   const matchId = req.query.matchId;
@@ -86,6 +43,8 @@ app.get("/activeGameData", async (req, res) => {
   const summoner = await getSummonerId(inGameName, tagId);
   const summonerData = await getSummonerData(summoner.puuid);
   const inGameInfo = await getActiveInGameInfo(summonerData.id);
+  const playerMatches = await getPlayerMatches(summonerData.puuid);
+  console.log(playerMatches);
   console.log(inGameInfo);
 
   res.send(inGameInfo);
@@ -100,6 +59,32 @@ app.get("/data", async (req, res) => {
     console.error(err);
     res.status(500).send("Server error");
   }
+});
+
+app.get("/tournamentProviderId", async (req, res) => {
+  const tournamentProviderId = await createTournamentProvider();
+  console.log(tournamentProviderId);
+  res.send({ tournamentProviderId: tournamentProviderId });
+});
+
+app.get("/tournamentId", async (req, res) => {
+  const tournamentId = await createTournament();
+  console.log(tournamentId);
+  res.send({ tournamentId: tournamentId });
+});
+
+app.get("/tournamentCode", async (req, res) => {
+  const tournamentCode = await createTournamentCode(3, 2);
+  console.log(tournamentCode);
+  res.send({ tournamentCode: tournamentCode });
+});
+
+app.get("/tournamentData", async (req, res) => {
+  const tournamentCode = req.query.tournamentCode;
+
+  const tournamentData = await getTournamentData(tournamentCode);
+  console.log(tournamentData);
+  res.send({ tournamentData: tournamentData });
 });
 
 app.get("/", (req, res) => {
