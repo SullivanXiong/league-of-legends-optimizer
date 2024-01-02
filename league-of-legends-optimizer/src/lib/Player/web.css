@@ -1,0 +1,20 @@
+.player-main {
+  height: 100%;
+}
+
+.player-add-new-champion:hover {
+  cursor: pointer;
+  width: fit-content;
+}
+
+.player-select-champion {
+  width: 310px;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+}
+
+.player-champion-search {
+  width: 100%;
+  height: 20px;
+}

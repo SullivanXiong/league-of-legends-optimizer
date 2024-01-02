@@ -5,6 +5,8 @@ require("dotenv").config();
 const app = express();
 app.use(cors());
 app.use(express.json()); // for parsing application/json
+const draftimizerMetaDataRoutes = require("./draftimizer/metaData");
+app.use("/draftimizer/meta", draftimizerMetaDataRoutes);
 
 const { Pool } = require("pg");
 

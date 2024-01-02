@@ -1,0 +1,18 @@
+.champion-main {
+}
+
+.champion-image {
+  width: 60px;
+  height: 60px;
+  background: yellow;
+  border-radius: 50%;
+  border: 1px solid black;
+  line-height: 60px;
+  align-self: center;
+  font-weight: bold;
+  font-size: small;
+}
+
+.champion-new-champion {
+  font-size: x-large;
+}

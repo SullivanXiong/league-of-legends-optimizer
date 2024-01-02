@@ -52,7 +52,6 @@
         <!-- <Team /> -->
         <p>{name}</p>
       {:else if contentType === "player"}
-        <p>{name}</p>
         <Player />
       {/if}
     </div>
