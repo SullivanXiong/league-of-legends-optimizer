@@ -44,17 +44,23 @@
 <main>
   <Overlay {active} {fields} {onSubmit} />
   <div class="lol-main">
-    <div class={`lol-left${isMenuOpen ? " open" : ""}`}>
+    <div class="lol-top">
+      <h1>lolo.gg</h1>
+    </div>
+    <div class="lol-bottom">
+      <span>Sign In</span>
+    </div>
+    <!-- <div class={`lol-left-${isMenuOpen ? "open" : " closed"}`}>
       <Menu {setContent} bind:isOpen={isMenuOpen} />
     </div>
-    <div class="lol-right">
+    <div class={`lol-right-${isMenuOpen ? "open" : " closed"}`}>
       {#if contentType === "team"}
-        <!-- <Team /> -->
+        <!-- <Team /> --!>
         <p>{name}</p>
       {:else if contentType === "player"}
         <Player />
       {/if}
-    </div>
+    </div> -->
   </div>
 </main>
 

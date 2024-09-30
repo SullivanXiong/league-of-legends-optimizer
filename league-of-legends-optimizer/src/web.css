@@ -1,17 +1,46 @@
 .lol-main {
-  background: #142424;
+  color: white;
+  background-color: #142424;
   width: 100vw;
   height: 100vh;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
-.lol-left {
+.lol-main-signup-section {
+  height: 100%;
+}
+
+.lol-top {
+  width: 100%;
+  height: 30%;
+  text-align: left;
+  padding-left: 2.5rem;
+}
+
+.lol-bottom {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.lol-left-closed {
+  width: 0;
+  border: none;
+}
+
+.lol-left-open {
   width: 25%;
   border: solid white 1px;
 }
 
-.lol-right {
+.lol-right-closed {
+  width: 100%;
+  border: solid lightblue 1px;
+}
+
+.lol-right-open {
   width: 75%;
   border: solid lightblue 1px;
 }
