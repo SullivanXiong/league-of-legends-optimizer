@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>Electron Riot + OAuth</title>
     <style>
       body {
@@ -54,7 +55,7 @@
     <h1>Google OAuth + Riot LCU Data</h1>
 
     <!-- Google OAuth Button -->
-    <button id="oauth-button">Sign in with Google</button>
+    <button id="sign-in-btn">Sign in with Google</button>
 
     <!-- Submit Data to Server Button -->
     <button id="submit-data-button">Submit Data to Server</button>
@@ -80,6 +81,16 @@
       </div>
     </div>
 
+    <!-- After Google OAuth, user will paste the authorization code here -->
+    <div id="auth-code-container" style="display: none">
+      <h2>Enter Authorization Code:</h2>
+      <input
+        type="text"
+        id="auth-code-input"
+        placeholder="Paste the code here"
+      />
+      <button id="submit-code-btn">Submit Code</button>
+    </div>
     <script src="renderer.js"></script>
   </body>
 </html>
