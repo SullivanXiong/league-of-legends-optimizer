@@ -8,10 +8,10 @@ const { syncTokensToServer } = require("./OAuth/serverSync");
 const { OAuth2Client } = require("google-auth-library");
 
 // Path to the cache file (can be stored in app's data directory)
-const cacheFilePath = path.join(__dirname, "match_history_cache.json");
+const cacheFilePath = path.join(__dirname, "match-history-cache.json");
 
 const serverApp = express();
-const PORT = 3001;
+const PORT = 3000;
 
 // Serve the Electron app's index.html over HTTP
 serverApp.use(express.static(path.join(__dirname)));

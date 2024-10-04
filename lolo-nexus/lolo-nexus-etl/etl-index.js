@@ -3,6 +3,8 @@ const db = require("./db"); // Assuming you export the db connection
 const app = express();
 app.use(express.json());
 
+const PORT = 3001;
+
 function wereDragonsUseful(matchData) {
   const team100 = matchData.teams.find((team) => team.teamId === 100);
   const team200 = matchData.teams.find((team) => team.teamId === 200);
@@ -184,6 +186,6 @@ app.post("/api/match", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
