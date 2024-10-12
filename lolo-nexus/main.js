@@ -11,7 +11,7 @@ const { OAuth2Client } = require("google-auth-library");
 const cacheFilePath = path.join(__dirname, "match-history-cache.json");
 
 const serverApp = express();
-const PORT = 3002;
+const PORT = process.env.ETL_PORT || 7000;
 
 // Serve the Electron app's index.html over HTTP
 serverApp.use(express.static(path.join(__dirname)));
@@ -272,27 +272,6 @@ async function fetchGameDetails(gameId) {
     console.error("Main process: Error fetching game details", error);
     throw error;
   }
-}
-
-// Google OAuth logic
-async function googleOAuth() {
-  const oauth2Client = new google.auth.OAuth2("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", "urn:ietf:wg:oauth:2.0:oob");
-
-  const authUrl = oauth2Client.generateAuthUrl({
-    access_type: "offline",
-    scope: ["https://www.googleapis.com/auth/userinfo.profile"],
-  });
-
-  const win = new BrowserWindow({ width: 800, height: 600 });
-  win.loadURL(authUrl);
-
-  win.webContents.on("will-navigate", async (event, url) => {
-    const code = new URL(url).searchParams.get("code");
-    const { tokens } = await oauth2Client.getToken(code);
-    oauth2Client.setCredentials(tokens);
-    console.log("OAuth Tokens:", tokens);
-    win.close();
-  });
 }
 
 function runCommand(command) {

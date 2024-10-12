@@ -41,6 +41,10 @@ body {
   margin-right: 10px;
 }
 
+.status-item > span {
+  width: calc(100% - 20px);
+}
+
 .connected {
   background-color: #4caf50;
 }

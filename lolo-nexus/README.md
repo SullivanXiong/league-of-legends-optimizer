@@ -1,0 +1,6 @@
+Define a .env file with these properties
+
+ETL_PORT
+ELECTRON_PORT
+GOOGLE_CLIENT_ID
+GOOGLE_CLIENT_SECRET

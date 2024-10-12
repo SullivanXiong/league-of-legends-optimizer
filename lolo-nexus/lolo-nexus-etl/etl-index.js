@@ -1,9 +1,10 @@
+require("dotenv").config();
 const express = require("express");
 const db = require("./db"); // Assuming you export the db connection
 const app = express();
 app.use(express.json());
 
-const PORT = 3001;
+const PORT = process.env.ETL_PORT || 7001;
 
 function wereDragonsUseful(matchData) {
   const team100 = matchData.teams.find((team) => team.teamId === 100);
@@ -15,13 +16,9 @@ function wereDragonsUseful(matchData) {
   const winningTeam = matchData.teams.find((team) => team.win === "Win");
 
   if (winningTeam && winningTeam.teamId === 100) {
-    return dragonKills100 > dragonKills200
-      ? "Dragons were useful"
-      : "Dragons were not as useful";
+    return dragonKills100 > dragonKills200 ? "Dragons were useful" : "Dragons were not as useful";
   } else if (winningTeam && winningTeam.teamId === 200) {
-    return dragonKills200 > dragonKills100
-      ? "Dragons were useful"
-      : "Dragons were not as useful";
+    return dragonKills200 > dragonKills100 ? "Dragons were useful" : "Dragons were not as useful";
   } else {
     return "Could not determine dragon usefulness";
   }
@@ -63,8 +60,7 @@ function comparePlayersByOpponents(matchData) {
   // Create a map to link participants with summoner names using participantIdentities
   const participantIdentityMap = {};
   matchData.participantIdentities.forEach((identity) => {
-    participantIdentityMap[identity.participantId] =
-      identity.player.summonerName;
+    participantIdentityMap[identity.participantId] = identity.player.summonerName;
   });
 
   // TODO: fix this so that it's actually comparing players by their true role
@@ -74,10 +70,8 @@ function comparePlayersByOpponents(matchData) {
     const team200Player = matchData.participants[i + 5];
 
     // Map participantId to summoner name
-    const team100SummonerName =
-      participantIdentityMap[team100Player.participantId];
-    const team200SummonerName =
-      participantIdentityMap[team200Player.participantId];
+    const team100SummonerName = participantIdentityMap[team100Player.participantId];
+    const team200SummonerName = participantIdentityMap[team200Player.participantId];
 
     // Add debugging logs to inspect the player data
     console.log(`Comparing Player ${i + 1}`);

@@ -21,20 +21,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${frizQuadrata.variable} antialiased`}>{children}</body>
-      <footer className="bg-[#0A1428] bg-opacity-90 border-t border-[#785A28] p-4 mt-12">
-        <div className="container mx-auto text-center text-sm">
-          <p>&copy; 2024 LoLO (League of Legends Optimizer). All rights reserved.</p>
-          <div className="mt-2">
-            <Link href="/terms" className="text-[#3C95D4] hover:underline mr-4">
-              Terms of Service
-            </Link>
-            <Link href="/privacy" className="text-[#3C95D4] hover:underline">
-              Privacy Policy
-            </Link>
+      <body className={`${frizQuadrata.variable} antialiased`}>
+        <div>{children}</div>
+        <footer className="bg-[#0A1428] bg-opacity-90 border-t border-[#785A28] p-4 mt-12">
+          <div className="container mx-auto text-center text-sm">
+            <p>&copy; 2024 LoLO (League of Legends Optimizer). All rights reserved.</p>
+            <div className="mt-2">
+              <Link href="/terms" className="text-[#3C95D4] hover:underline mr-4">
+                Terms of Service
+              </Link>
+              <Link href="/privacy" className="text-[#3C95D4] hover:underline">
+                Privacy Policy
+              </Link>
+            </div>
           </div>
-        </div>
-      </footer>
+        </footer>
+      </body>
     </html>
   );
 }
