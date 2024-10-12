@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Link from "next/link";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
+const frizQuadrata = localFont({
+  src: "./fonts/FrizQuadrataRegular.woff",
+  variable: "--font-friz-quadrata",
   weight: "100 900",
 });
 
@@ -25,7 +21,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+      <body className={`${frizQuadrata.variable} antialiased`}>{children}</body>
+      <footer className="bg-[#0A1428] bg-opacity-90 border-t border-[#785A28] p-4 mt-12">
+        <div className="container mx-auto text-center text-sm">
+          <p>&copy; 2024 LoLO (League of Legends Optimizer). All rights reserved.</p>
+          <div className="mt-2">
+            <Link href="/terms" className="text-[#3C95D4] hover:underline mr-4">
+              Terms of Service
+            </Link>
+            <Link href="/privacy" className="text-[#3C95D4] hover:underline">
+              Privacy Policy
+            </Link>
+          </div>
+        </div>
+      </footer>
     </html>
   );
 }

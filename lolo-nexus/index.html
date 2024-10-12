@@ -3,94 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <title>Electron Riot + OAuth</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-        padding: 0;
-        background-color: #f4f4f4;
-      }
-
-      h1 {
-        font-size: 24px;
-      }
-
-      button {
-        margin: 10px 0;
-        padding: 10px;
-        font-size: 16px;
-        cursor: pointer;
-      }
-
-      #riot-data {
-        white-space: pre-wrap;
-        background: #fff;
-        padding: 20px;
-        border: 1px solid #ddd;
-        max-height: 400px;
-        overflow-y: auto;
-        font-family: monospace;
-      }
-
-      #container {
-        display: flex;
-        justify-content: space-between;
-      }
-
-      #match-history,
-      #game-details {
-        width: 48%;
-      }
-
-      .game-id {
-        cursor: pointer;
-        color: blue;
-        text-decoration: underline;
-      }
-    </style>
+    <title>LoL Companion App</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>Google OAuth + Riot LCU Data</h1>
-
-    <!-- Google OAuth Button -->
-    <button id="sign-in-btn">Sign in with Google</button>
-
-    <!-- Submit Data to Server Button -->
-    <button id="submit-data-button">Submit Data to Server</button>
-
-    <!-- Manual Game ID Search -->
-    <div>
-      <label for="gameIdInput">Enter Game ID:</label>
-      <input type="text" id="gameIdInput" />
-      <button id="searchGameButton">Search Game</button>
+    <div id="app">
+      <!-- Your main app content will go here -->
     </div>
-
-    <div id="container">
-      <!-- Match History Section -->
-      <div id="match-history">
-        <h2>Match History</h2>
-        <div id="riot-data">Loading match history...</div>
+    <div id="status-bar" class="status-bar">
+      <div class="status-items">
+        <div class="status-item">
+          <div class="status-dot connected"></div>
+          <span>Connected to League of Legends client</span>
+        </div>
+        <div class="status-item">
+          <div class="status-dot connected"></div>
+          <span>Syncing match data to ETL</span>
+        </div>
+        <div class="status-item">
+          <div class="status-dot disconnected"></div>
+          <span>Not synced to WebApp</span>
+        </div>
       </div>
-
-      <!-- Game Details Section -->
-      <div id="game-details">
-        <h2>Game Details</h2>
-        <pre id="game-details-data">No game details yet...</pre>
+      <div class="status-buttons">
+        <button id="google-btn"><img src="./public/google-button.svg" alt="Google" /></button>
+        <button id="jwt-btn">Generate JWT for SSO</button>
       </div>
     </div>
-
-    <!-- After Google OAuth, user will paste the authorization code here -->
-    <div id="auth-code-container" style="display: none">
-      <h2>Enter Authorization Code:</h2>
-      <input
-        type="text"
-        id="auth-code-input"
-        placeholder="Paste the code here"
-      />
-      <button id="submit-code-btn">Submit Code</button>
-    </div>
-    <script src="renderer.js"></script>
   </body>
 </html>

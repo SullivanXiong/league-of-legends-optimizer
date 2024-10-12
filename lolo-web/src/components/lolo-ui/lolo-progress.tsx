@@ -22,7 +22,7 @@ export default function LoLOProgress() {
     <div className="w-full max-w-md space-y-4 overflow-hidden">
       <div className="relative">
         <div className="absolute inset-0 bg-[#C8AA6E] rounded-sm opacity-50"></div>
-        {/* <div className="absolute inset-[1px] bg-[#010A13] rounded-[1px]"></div> */}
+        <div className="absolute inset-[1px] bg-[#010A13] rounded-[1px]"></div>
         <Progress value={progress} className="h-3 w-full bg-[#0A1428] relative z-10" />
       </div>
     </div>

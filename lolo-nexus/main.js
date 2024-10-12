@@ -11,7 +11,7 @@ const { OAuth2Client } = require("google-auth-library");
 const cacheFilePath = path.join(__dirname, "match-history-cache.json");
 
 const serverApp = express();
-const PORT = 3000;
+const PORT = 3002;
 
 // Serve the Electron app's index.html over HTTP
 serverApp.use(express.static(path.join(__dirname)));
@@ -63,9 +63,7 @@ async function syncCacheWithServer() {
     const serverGameIds = serverMatches.map((match) => match.gameId);
 
     // Check for any matches in the cache that the server doesn't have
-    const missingMatches = cachedMatches.games.games.filter(
-      (cachedGame) => !serverGameIds.includes(cachedGame.gameId)
-    );
+    const missingMatches = cachedMatches.games.games.filter((cachedGame) => !serverGameIds.includes(cachedGame.gameId));
 
     // Resend any missing matches to the server
     for (const match of missingMatches) {
@@ -98,13 +96,18 @@ let lastMatchHistory = loadMatchHistoryFromFile(); // Load cached match history
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 400,
+    height: 159,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: false,
       contextIsolation: true,
     },
+    resizable: false,
+    fullscreenable: false,
+    maximizable: false,
+    autoHideMenuBar: true,
+    frame: true,
   });
 
   win.loadURL(`http://localhost:${PORT}/index.html`);
@@ -132,26 +135,20 @@ ipcMain.handle("get-game-details", async (event, gameId) => {
     const gameDetails = await fetchGameDetails(gameId);
     return gameDetails; // Send game details back to renderer process
   } catch (error) {
-    console.error(
-      `Main process: Error fetching game details for gameId ${gameId}`,
-      error
-    );
+    console.error(`Main process: Error fetching game details for gameId ${gameId}`, error);
     return { error: "Unable to fetch game details" };
   }
 });
 
 // Handle the IPC event from the renderer process
-ipcMain.on(
-  "sync-tokens",
-  async (event, { idToken, accessToken, refreshToken }) => {
-    try {
-      await syncTokensToServer(idToken, accessToken, refreshToken);
-      console.log("Tokens synced successfully.");
-    } catch (error) {
-      console.error("Failed to sync tokens:", error);
-    }
+ipcMain.on("sync-tokens", async (event, { idToken, accessToken, refreshToken }) => {
+  try {
+    await syncTokensToServer(idToken, accessToken, refreshToken);
+    console.log("Tokens synced successfully.");
+  } catch (error) {
+    console.error("Failed to sync tokens:", error);
   }
-);
+});
 
 // Handle OAuth start triggered from the renderer process
 ipcMain.on("oauth-start", async (event) => {
@@ -222,9 +219,7 @@ function startPollingMatchHistory() {
 
 // Cache port and token locally so it doesn't have to be fetched every time
 async function getPortAndToken() {
-  const commandOutput = await runCommand(
-    "WMIC PROCESS WHERE \"name='LeagueClientUx.exe'\" GET commandline"
-  );
+  const commandOutput = await runCommand("WMIC PROCESS WHERE \"name='LeagueClientUx.exe'\" GET commandline");
 
   const portMatch = commandOutput.match(/--app-port=(\d+)/);
   const tokenMatch = commandOutput.match(/--remoting-auth-token=([\w-]+)/);
@@ -247,9 +242,7 @@ async function getLCUMatchHistory() {
 
     const response = await axios.get(riotUrl, {
       headers: {
-        Authorization: `Basic ${Buffer.from("riot:" + token).toString(
-          "base64"
-        )}`,
+        Authorization: `Basic ${Buffer.from("riot:" + token).toString("base64")}`,
         "Content-Type": "application/json",
       },
       httpsAgent: new (require("https").Agent)({ rejectUnauthorized: false }),
@@ -267,18 +260,13 @@ async function fetchGameDetails(gameId) {
   const { port, token } = await getPortAndToken();
 
   try {
-    const response = await axios.get(
-      `https://127.0.0.1:${port}/lol-match-history/v1/games/${gameId}`,
-      {
-        headers: {
-          Authorization: `Basic ${Buffer.from("riot:" + token).toString(
-            "base64"
-          )}`,
-          "Content-Type": "application/json",
-        },
-        httpsAgent: new (require("https").Agent)({ rejectUnauthorized: false }), // Ignore self-signed SSL
-      }
-    );
+    const response = await axios.get(`https://127.0.0.1:${port}/lol-match-history/v1/games/${gameId}`, {
+      headers: {
+        Authorization: `Basic ${Buffer.from("riot:" + token).toString("base64")}`,
+        "Content-Type": "application/json",
+      },
+      httpsAgent: new (require("https").Agent)({ rejectUnauthorized: false }), // Ignore self-signed SSL
+    });
     return response.data;
   } catch (error) {
     console.error("Main process: Error fetching game details", error);
@@ -288,11 +276,7 @@ async function fetchGameDetails(gameId) {
 
 // Google OAuth logic
 async function googleOAuth() {
-  const oauth2Client = new google.auth.OAuth2(
-    "YOUR_CLIENT_ID",
-    "YOUR_CLIENT_SECRET",
-    "urn:ietf:wg:oauth:2.0:oob"
-  );
+  const oauth2Client = new google.auth.OAuth2("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", "urn:ietf:wg:oauth:2.0:oob");
 
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: "offline",
@@ -327,10 +311,7 @@ function hasMatchHistoryChanged(newMatchHistory) {
   const lastGamesArray = lastMatchHistory.games?.games || [];
 
   // Compare game IDs to detect new matches
-  return newGamesArray.some(
-    (game) =>
-      !lastGamesArray.find((lastGame) => lastGame.gameId === game.gameId)
-  );
+  return newGamesArray.some((game) => !lastGamesArray.find((lastGame) => lastGame.gameId === game.gameId));
 }
 
 // Extract new game IDs from the match history
@@ -339,20 +320,14 @@ function getNewGameIds(newMatchHistory) {
   const lastGamesArray = lastMatchHistory.games?.games || [];
 
   return newGamesArray
-    .filter(
-      (game) =>
-        !lastGamesArray.find((lastGame) => lastGame.gameId === game.gameId)
-    )
+    .filter((game) => !lastGamesArray.find((lastGame) => lastGame.gameId === game.gameId))
     .map((game) => game.gameId);
 }
 
 // Function to submit the game data to the server
 async function submitGameToServer(gameDetails) {
   try {
-    const response = await axios.post(
-      "http://localhost:3000/api/match",
-      gameDetails
-    );
+    const response = await axios.post("http://localhost:3000/api/match", gameDetails);
   } catch (error) {
     console.error("Error uploading game data to server:", error);
   }
