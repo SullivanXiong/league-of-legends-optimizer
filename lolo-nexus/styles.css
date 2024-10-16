@@ -13,6 +13,8 @@ body {
 .status-bar {
   background-color: #1e2328;
   border: 1px solid #c8aa6e;
+  border-bottom-left-radius: 7.5px;
+  border-bottom-right-radius: 7.5px;
   padding: 10px;
   display: flex;
   justify-content: space-between;

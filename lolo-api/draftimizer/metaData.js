@@ -6,12 +6,7 @@ router.get("/versions", async (req, res) => {
     method: "GET",
   };
 
-  let data = await (
-    await fetch(
-      "https://ddragon.leagueoflegends.com/api/versions.json",
-      options
-    )
-  ).json();
+  let data = await (await fetch("https://ddragon.leagueoflegends.com/api/versions.json", options)).json();
 
   res.send(data);
 });
@@ -21,12 +16,7 @@ router.get("/latestVersion", async (req, res) => {
     method: "GET",
   };
 
-  let data = await (
-    await fetch(
-      "https://ddragon.leagueoflegends.com/api/versions.json",
-      options
-    )
-  ).json();
+  let data = await (await fetch("https://ddragon.leagueoflegends.com/api/versions.json", options)).json();
 
   res.send(data[0]);
 });
@@ -37,10 +27,7 @@ router.get("/champions", async (req, res) => {
   };
 
   let champions = await (
-    await fetch(
-      "https://ddragon.leagueoflegends.com/cdn/13.24.1/data/en_US/champion.json",
-      options
-    )
+    await fetch("https://ddragon.leagueoflegends.com/cdn/13.24.1/data/en_US/champion.json", options)
   ).json();
 
   res.send(Object.keys(champions["data"]));

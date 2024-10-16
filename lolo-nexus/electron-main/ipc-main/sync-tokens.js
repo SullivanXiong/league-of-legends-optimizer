@@ -23,10 +23,7 @@ const syncTokensToServer = async (idToken, accessToken, refreshToken) => {
   }
 };
 
-export async function synctokens(
-  event,
-  { idToken, accessToken, refreshToken }
-) {
+async function synctokens(event, { idToken, accessToken, refreshToken }) {
   try {
     await syncTokensToServer(idToken, accessToken, refreshToken);
     console.log("Tokens synced successfully.");
@@ -34,3 +31,5 @@ export async function synctokens(
     console.error("Failed to sync tokens:", error);
   }
 }
+
+module.exports = { synctokens };

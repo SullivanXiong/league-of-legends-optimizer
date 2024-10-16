@@ -54,7 +54,7 @@ window.electronAPI.onMatchHistoryUpdate((event, updatedMatchHistory) => {
 
     // Make game ID clickable
     matchElement.querySelector(".game-id").addEventListener("click", () => {
-      fetchGameDetails(gameId); // Fetch and display game details for the clicked game ID
+      getMatchDetails(gameId); // Fetch and display game details for the clicked game ID
     });
 
     matchHistoryElement.appendChild(matchElement);
@@ -66,7 +66,7 @@ window.electronAPI.onMatchHistoryUpdate((event, updatedMatchHistory) => {
 });
 
 // Fetch game details based on gameId
-async function fetchGameDetails(gameId) {
+async function getMatchDetails(gameId) {
   console.log(`Fetching game details for Game ID: ${gameId}`);
 
   try {

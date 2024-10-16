@@ -1,6 +1,6 @@
-import { shell } from "electron";
+const { shell } = require("electron");
 
-export async function oAuthStart(event, client) {
+async function oAuthStart(event, client) {
   try {
     // Generate the Google OAuth URL
     const authUrl = client.generateAuthUrl({
@@ -19,7 +19,7 @@ export async function oAuthStart(event, client) {
   }
 }
 
-export async function oAuthCode(event, authCode) {
+async function oAuthCode(event, authCode) {
   try {
     // Exchange the authorization code for tokens
     const { tokens } = await client.getToken(authCode);
@@ -32,3 +32,5 @@ export async function oAuthCode(event, authCode) {
     event.sender.send("oauth-error", error);
   }
 }
+
+module.exports = { oAuthStart, oAuthCode };
