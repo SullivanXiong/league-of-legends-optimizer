@@ -25,8 +25,7 @@ async function getPortAndToken() {
   const portMatch = commandOutput.match(/--app-port=(\d+)/);
   const tokenMatch = commandOutput.match(/--remoting-auth-token=([\w-]+)/);
   if (!portMatch || !tokenMatch) {
-    console.error("Main process: Error - Could not extract port/token");
-    throw new Error("Could not extract port or token");
+    throw new Error("Could not extract port or token, check if the client is running.");
   }
 
   const port = portMatch[1];
