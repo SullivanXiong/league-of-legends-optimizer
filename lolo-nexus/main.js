@@ -26,7 +26,7 @@ const client = new OAuth2Client(
 );
 
 function createWindow() {
-  const win = new BrowserWindow({
+  let win = new BrowserWindow({
     width: 410,
     height: 150,
     webPreferences: {
