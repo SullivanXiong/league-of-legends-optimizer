@@ -9,16 +9,11 @@ function runCommand(command) {
   });
 }
 
-// Function to check if LeagueClientUx.exe is running
-function isLeagueClientRunning() {
-  return new Promise((resolve, reject) => {
-    exec("tasklist", (err, stdout, stderr) => {
-      if (err) {
-        return reject(err);
-      }
-      // Check if the LeagueClientUx.exe is listed in the tasklist output
-      const isRunning = stdout.toLowerCase().includes("leagueclientux.exe");
-      resolve(isRunning);
+// Function to check if the LeagueClientUx process is running
+async function isLeagueClientRunning() {
+  return new Promise((resolve) => {
+    exec("WMIC PROCESS WHERE \"name='LeagueClientUx.exe'\" GET commandline", (error, stdout) => {
+      resolve(stdout.includes("LeagueClientUx.exe"));
     });
   });
 }
@@ -39,4 +34,4 @@ async function getPortAndToken() {
   return { port: port, token: token };
 }
 
-module.exports = { getPortAndToken };
+module.exports = { isLeagueClientRunning, getPortAndToken };
