@@ -11,7 +11,7 @@ const { OAuth2Client } = require("google-auth-library");
 const cacheFilePath = path.join(__dirname, "match-history-cache.json");
 
 const serverApp = express();
-const PORT = process.env.ETL_PORT || 7000;
+const PORT = process.env.ELECTRON_PORT || 7000;
 
 // Serve the Electron app's index.html over HTTP
 serverApp.use(express.static(path.join(__dirname)));
